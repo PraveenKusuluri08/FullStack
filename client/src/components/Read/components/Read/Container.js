@@ -20,7 +20,6 @@ function Container(props) {
 }
 
 const mapStateToProps = (state) => {
-  
   return {
     allBlogs: state.combineAllReads.readAllData,
     arrayBlogs: state.combineAllReads.readAllData.allBlogs,
