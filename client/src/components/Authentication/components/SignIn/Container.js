@@ -48,9 +48,7 @@ function Container(props) {
       return <Redirect to="/user/signIn" />
     }
   };
-
-  handleRedirect();
-
+    
   return (
     <div>
       <Presentation
