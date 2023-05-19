@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  server:
+    build: 
+      context: .
+      dockerfile: ./server/Dockerfile 
+    image: chactapp-server
+    container_name: chat-app-backend
+    command: /usr/src/app/node_modules/.bin/nodemon server.js
+    env_file: 
+        - ./server/app.env
+    environment:
+        - PORT_ADDRESS= 8000
+        - JWT_SECRET= PRAVEEN08
+        - NODE_ENV= production
+        - MONGO_URI= mongodb+srv://praveen08:praveen08@cluster0.7fpbz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+        - SENTRY_DSN= https://b3b61748bda146f0a41e3b5ce69d8345@o1144595.ingest.sentry.io/6208710
+        - AWS_ACCESS_KEY_ID= AKIA5QTH4FYDOEFWYSAF
+        - AWS_SECRET_ACCESS_KEY= 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
+        - S3_REGION= ap-south-1
+        - BUCKET_NAME="chat-app-mern"
+    
+    volumes:
+         - .:/user/src/app
+         - /usr/src/app/node_modules
+    ports:
+         - "8000:8000"
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: ./client/Dockerfile
+    image: chatapp-client
+    container_name: react-app-frontend
+    command: npm start
+    volumes:  
+      - .:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+      driver: bridge
+
+volumes:  
+  node_modules:
+  web-root:
+    driver: local
